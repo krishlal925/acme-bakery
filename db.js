@@ -6,8 +6,8 @@ const sync = async ()=>{
   console.log("syncing...")
   const SQL = `
   CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-  DROP TABLE IF EXISTS chefs;
   DROP TABLE IF EXISTS recipes;
+  DROP TABLE IF EXISTS chefs;
   CREATE table chefs(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255)
@@ -15,7 +15,7 @@ const sync = async ()=>{
   CREATE table recipes(
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255),
-    chef_id UUID REFERENCES CHEFS(id)
+    chef_id UUID REFERENCES chefs(id)
   );
 
   INSERT INTO chefs ( name) VALUES ('Wolfgang Puck');
