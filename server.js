@@ -12,6 +12,18 @@ app.get('/', (req, res, next)=> {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/api/chefs', (req,res,next)=>{
+  db.readChefs()
+  .then(chefs => res.send(chefs))
+  .catch(next)
+});
+
+app.get('/api/recipes', (req,res,next)=>{
+  db.readRecipes()
+  .then(recipes => res.send(recipes))
+  .catch(next)
+});
+
 db.sync()
   .then(()=>{
     app.listen(port, ()=> console.log(`listening on port: ${port}`));

@@ -32,17 +32,31 @@ const sync = async ()=>{
     createRecipe('filet mignon', gordon.id),
     createRecipe('green curfy', rachel.id)
   ])
+
+  console.log(await readChefs());
 }
 
 const createChef = async(name) =>{
   const SQL = 'INSERT INTO chefs(name) VALUES ($1) returning *';
-  return (await client.query(SQL, [name]));
+  return (await client.query(SQL, [name])).rows[0];
 }
 const createRecipe = async(name, id) =>{
   const SQL = 'INSERT INTO recipes(name, chef_id) VALUES ($1,$2) returning *';;
   return (await client.query(SQL, [name, id]));
 }
 
+const readChefs = async () =>{
+  const SQL = 'SELECT * FROM chefs';
+  return (await client.query(SQL)).rows;
+}
+
+const readRecipes = async () =>{
+  const SQL = 'SELECT * FROM recipes';
+  return (await client.query(SQL)).rows;
+}
+
 module.exports = {
-  sync
+  sync,
+  readChefs,
+  readRecipes
 }
