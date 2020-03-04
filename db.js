@@ -5,30 +5,43 @@ client.connect();
 const sync = async ()=>{
   console.log("syncing...")
   const SQL = `
-  CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-  DROP TABLE IF EXISTS recipes;
-  DROP TABLE IF EXISTS chefs;
-  CREATE table chefs(
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(255)
-  );
-  CREATE table recipes(
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(255),
-    chef_id UUID REFERENCES chefs(id)
-  );
-
-  INSERT INTO chefs ( name) VALUES ('Wolfgang Puck');
-  INSERT INTO chefs ( name) VALUES ('Gordon Ramsey');
-  INSERT INTO chefs ( name) VALUES ('Rachel Ray');
-  INSERT INTO recipes ( name) VALUES ('Mac n cheese');
-  INSERT INTO recipes ( name) VALUES ('filet mignon');
-  INSERT INTO recipes ( name) VALUES ('green curry');
-
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    DROP TABLE IF EXISTS recipes;
+    DROP TABLE IF EXISTS chefs;
+    CREATE table chefs(
+      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      name VARCHAR(255)
+    );
+    CREATE table recipes(
+      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      name VARCHAR(255),
+      chef_id UUID REFERENCES chefs(id)
+    );
   `;
+
   client.query(SQL);
+
+  const [wolfgang, gordon, rachel] = await Promise.all([
+    createChef('Wolfgang Puck'),
+    createChef('Gordon Ramsey'),
+    createChef('Rachel Ray')
+  ]);
+
+  Promise.all([
+    createRecipe("mac n cheese", wolfgang.id),
+    createRecipe('filet mignon', gordon.id),
+    createRecipe('green curfy', rachel.id)
+  ])
 }
 
+const createChef = async(name) =>{
+  const SQL = 'INSERT INTO chefs(name) VALUES ($1) returning *';
+  return (await client.query(SQL, [name]));
+}
+const createRecipe = async(name, id) =>{
+  const SQL = 'INSERT INTO recipes(name, chef_id) VALUES ($1,$2) returning *';;
+  return (await client.query(SQL, [name, id]));
+}
 
 module.exports = {
   sync
