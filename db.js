@@ -55,8 +55,16 @@ const readRecipes = async () =>{
   return (await client.query(SQL)).rows;
 }
 
+const deleteChef = async(id)=>{
+  const SQL = 'DELETE FROM chefs where id= $1';
+  await client.query(SQL, [id]);
+  return(`deleted: ${id}`)
+}
+
 module.exports = {
   sync,
   readChefs,
-  readRecipes
+  readRecipes,
+  createChef,
+  deleteChef
 }

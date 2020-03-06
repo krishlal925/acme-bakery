@@ -24,8 +24,17 @@ app.get('/api/recipes', (req,res,next)=>{
   .catch(next)
 });
 
-//work in progress
-// app.post('/api/chefs')
+
+  app.post('/api/chefs/:name', (req,res,next)=>{
+    db.createChef(req.params.name)
+    .then(chef=> res.send(chef))
+  });
+
+  app.delete('/api/chefs/:id', (req,res,next)=>{
+    db.deleteChef(req.params.id)
+    .then(response => res.send(response))
+  });
+
 
 db.sync()
   .then(()=>{

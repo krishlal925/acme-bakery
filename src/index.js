@@ -14,7 +14,11 @@ const Chefs = ({chefs}) => {
       <ul>
         {
           chefs.map(chef =>{
-            return (<li key= {chef.id}> {chef.name}</li>)
+            return (<li key= {chef.id}>
+
+              {chef.name} <button>X</button>
+
+            </li>)
           })
         }
       </ul>
