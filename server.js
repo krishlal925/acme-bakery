@@ -24,6 +24,9 @@ app.get('/api/recipes', (req,res,next)=>{
   .catch(next)
 });
 
+//work in progress
+// app.post('/api/chefs')
+
 db.sync()
   .then(()=>{
     app.listen(port, ()=> console.log(`listening on port: ${port}`));
