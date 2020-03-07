@@ -1,49 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-
+import Chefs from './chefslist';
+import Recipes from './recipeslist'
 const {useState, useEffect} = React;
 
-
-
-const Chefs = ({chefs, destroyChef}) => {
-
-
-  return (
-    <div>
-      <div>Chefs({chefs.length}) </div>
-      <ul>
-        {
-          chefs.map(chef =>{
-            return (<li key= {chef.id}>
-
-              {chef.name} <button onClick ={()=> destroyChef(chef)} >X</button>
-
-            </li>)
-          })
-        }
-      </ul>
-    </div>
-  )
-}
-
-const Recipes = ({recipes, destroyRecipe}) => {
-  console.log("recipes: ", recipes);
-  return (
-    <div>
-<div>Recipes({recipes.length})</div>
-      <ul>
-        {
-          recipes.map(recipe =>{
-           return( <li key = {recipe.id}>{recipe.name}
-            <button onClick= {()=> destroyRecipe(recipe)}>x</button>
-           </li>)
-          })
-        }
-      </ul>
-    </div>
-  )
-}
+// const Recipes = ({recipes, destroyRecipe}) => {
+//   console.log("recipes: ", recipes);
+//   return (
+//     <div>
+// <div>Recipes({recipes.length})</div>
+//       <ul>
+//         {
+//           recipes.map(recipe =>{
+//            return( <li key = {recipe.id}>{recipe.name}
+//             <button onClick= {()=> destroyRecipe(recipe)}>x</button>
+//            </li>)
+//           })
+//         }
+//       </ul>
+//     </div>
+//   )
+// }
 
 const App = () => {
   const [chefs, setChefs] = useState([]);
