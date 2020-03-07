@@ -35,6 +35,11 @@ app.get('/api/recipes', (req,res,next)=>{
     .then(response => res.send(response))
   });
 
+  app.delete('/api/recipes/:id', (req,res,next)=>{
+    db.deleteRecipe(req.params.id)
+    .then(response => res.send(response))
+  });
+
 
 db.sync()
   .then(()=>{

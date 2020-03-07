@@ -6,7 +6,8 @@ const {useState, useEffect} = React;
 
 
 
-const Chefs = ({chefs}) => {
+const Chefs = ({chefs, destroyChef}) => {
+
 
   return (
     <div>
@@ -16,7 +17,7 @@ const Chefs = ({chefs}) => {
           chefs.map(chef =>{
             return (<li key= {chef.id}>
 
-              {chef.name} <button>X</button>
+              {chef.name} <button onClick ={()=> destroyChef(chef)} >X</button>
 
             </li>)
           })
@@ -26,7 +27,7 @@ const Chefs = ({chefs}) => {
   )
 }
 
-const Recipes = ({recipes}) => {
+const Recipes = ({recipes, destroyRecipe}) => {
   console.log("recipes: ", recipes);
   return (
     <div>
@@ -34,7 +35,9 @@ const Recipes = ({recipes}) => {
       <ul>
         {
           recipes.map(recipe =>{
-           return( <li key = {recipe.id}>{recipe.name}</li>)
+           return( <li key = {recipe.id}>{recipe.name}
+            <button onClick= {()=> destroyRecipe(recipe)}>x</button>
+           </li>)
           })
         }
       </ul>
@@ -45,9 +48,30 @@ const Recipes = ({recipes}) => {
 const App = () => {
   const [chefs, setChefs] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [ error, setError ] = useState('');
   console.log("1: ", chefs);
 
+  const destroyChef = async({id})=>{
+    try{
+      await axios.delete(`/api/chefs/${id}`);
+      setChefs(chefs.filter(chef => chef.id !== id));
+      setError('');
+    }
+    catch(ex){
+      setError(ex.response.data.message)
+    }
+  }
 
+  const destroyRecipe = async({id})=>{
+    try{
+      await axios.delete(`/api/recipes/${id}`);
+      setRecipes(recipes.filter(recipe => recipe.id !== id));
+      setError('');
+    }
+    catch(ex){
+      setError(ex.response.data.message)
+    }
+  }
 
   //load data from server on first launch
   useEffect(()=>{
@@ -66,8 +90,8 @@ const App = () => {
     <div>
       <div>My App... </div>
       <div className='container'>
-        <Chefs chefs = {chefs}/>
-        <Recipes recipes = {recipes}/>
+        <Chefs chefs = {chefs} destroyChef = {destroyChef}/>
+        <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe}/>
       </div>
     </div>
   );

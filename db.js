@@ -15,7 +15,7 @@ const sync = async ()=>{
     CREATE table recipes(
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       name VARCHAR(255),
-      chef_id UUID REFERENCES chefs(id)
+      chef_id UUID REFERENCES chefs(id) ON DELETE CASCADE
     );
   `;
 
@@ -24,7 +24,8 @@ const sync = async ()=>{
   const [wolfgang, gordon, rachel] = await Promise.all([
     createChef('Wolfgang Puck'),
     createChef('Gordon Ramsey'),
-    createChef('Rachel Ray')
+    createChef('Rachel Ray'),
+    createChef('Sam')
   ]);
 
   Promise.all([
@@ -61,10 +62,17 @@ const deleteChef = async(id)=>{
   return(`deleted: ${id}`)
 }
 
+const deleteRecipe = async(id)=>{
+  const SQL = 'DELETE FROM recipes where id= $1';
+  await client.query(SQL, [id]);
+  return(`deleted: ${id}`)
+}
+
 module.exports = {
   sync,
   readChefs,
   readRecipes,
   createChef,
-  deleteChef
+  deleteChef,
+  deleteRecipe
 }
