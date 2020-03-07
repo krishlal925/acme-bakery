@@ -1,0 +1,14 @@
+
+.container{
+  display: flex;
+}
+
+.column1{
+  flex: 1;
+  border: solid black 1pt;
+}
+
+.column2{
+  flex: 1;
+  border: solid black 1pt;
+}

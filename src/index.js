@@ -31,7 +31,7 @@ const Recipes = ({recipes, destroyRecipe}) => {
   console.log("recipes: ", recipes);
   return (
     <div>
-      <div>Recipes will go here </div>
+<div>Recipes({recipes.length})</div>
       <ul>
         {
           recipes.map(recipe =>{
@@ -90,8 +90,12 @@ const App = () => {
     <div>
       <div>My App... </div>
       <div className='container'>
-        <Chefs chefs = {chefs} destroyChef = {destroyChef}/>
-        <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe}/>
+        <div className= 'column1' >
+          <Chefs chefs = {chefs} destroyChef = {destroyChef}/>
+        </div>
+        <div className= 'column2'>
+          <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe}/>
+        </div>
       </div>
     </div>
   );
