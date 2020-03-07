@@ -6,9 +6,17 @@
 .column1{
   flex: 1;
   border: solid black 1pt;
+
 }
 
 .column2{
   flex: 1;
   border: solid black 1pt;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+
 }
