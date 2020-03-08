@@ -4,6 +4,8 @@ const db = require('./db');
 const path = require('path');
 const port = process.env.port || 3000;
 
+//body parser
+app.use(express.json());
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
@@ -24,21 +26,21 @@ app.get('/api/recipes', (req,res,next)=>{
   .catch(next)
 });
 
+app.post('/api/chefs', (req,res,next)=>{
+  console.log(req)
+  db.createChef(req.body.name)
+  .then(chef=> res.send(chef))
+});
 
-  app.post('/api/chefs/:name', (req,res,next)=>{
-    db.createChef(req.params.name)
-    .then(chef=> res.send(chef))
-  });
+app.delete('/api/chefs/:id', (req,res,next)=>{
+  db.deleteChef(req.params.id)
+  .then(response => res.send(response))
+});
 
-  app.delete('/api/chefs/:id', (req,res,next)=>{
-    db.deleteChef(req.params.id)
-    .then(response => res.send(response))
-  });
-
-  app.delete('/api/recipes/:id', (req,res,next)=>{
-    db.deleteRecipe(req.params.id)
-    .then(response => res.send(response))
-  });
+app.delete('/api/recipes/:id', (req,res,next)=>{
+  db.deleteRecipe(req.params.id)
+  .then(response => res.send(response))
+});
 
 
 db.sync()

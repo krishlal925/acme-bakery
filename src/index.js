@@ -13,6 +13,8 @@ const App = () => {
   const [recipes, setRecipes] = useState([]);
   const [ error, setError ] = useState('');
 
+
+  // delete functions
   const destroyChef = async({id})=>{
     try{
       await axios.delete(`/api/chefs/${id}`);
@@ -35,6 +37,17 @@ const App = () => {
     }
   }
 
+  //create functions
+  const createChef = async(input) =>{
+    console.log("I am inside createChef()")
+    console.log(input)
+    const response = await axios.post(`/api/chefs`, input)
+    console.log(`made it to createChefs(${response})...`)
+    console.log("the response: ", response)
+    setChefs([...chefs, response.data.name])
+  }
+
+
   //load data from server on first launch
   useEffect(()=>{
     console.log("entering use effect...")
@@ -47,13 +60,17 @@ const App = () => {
     })
   }, [])
 
+  //reload page when data is updated
+  // useEffect(()=>{
+
+  // }, []);
 
   return (
     <div>
       <div>My App... </div>
       <div className='container'>
         <div className= 'column1' >
-          <ChefForm />
+          <ChefForm createChef = {createChef}/>
           <Chefs chefs = {chefs} destroyChef = {destroyChef}/>
         </div>
         <div className= 'column2'>
