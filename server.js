@@ -27,9 +27,15 @@ app.get('/api/recipes', (req,res,next)=>{
 });
 
 app.post('/api/chefs', (req,res,next)=>{
-  console.log(req)
+  console.log(req.body)
   db.createChef(req.body.name)
   .then(chef=> res.send(chef))
+});
+
+app.post('/api/recipes', (req,res,next)=>{
+  console.log(req.body)
+  db.createRecipe(req.body.name, req.body.chef_id)
+  .then(recipe=> res.send(recipe))
 });
 
 app.delete('/api/chefs/:id', (req,res,next)=>{

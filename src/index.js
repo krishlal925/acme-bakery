@@ -4,6 +4,8 @@ import axios from 'axios';
 import Chefs from './chefslist';
 import Recipes from './recipeslist';
 import ChefForm from './chefform';
+import RecipeForm from './recipeform';
+
 
 const {useState, useEffect} = React;
 
@@ -39,14 +41,17 @@ const App = () => {
 
   //create functions
   const createChef = async(input) =>{
-    console.log("I am inside createChef()")
-    console.log(input)
-    const response = await axios.post(`/api/chefs`, input)
-    console.log(`made it to createChefs(${response})...`)
-    console.log("the response: ", response)
-    setChefs([...chefs, {"name": response.data.name, "id":response.data.id}])
+    const response = (await axios.post(`/api/chefs`, input)).data
+    setChefs([...chefs, {"name": response.name, "id":response.id}])
   }
 
+  const createRecipe = async(input)=>{
+    console.log("im in the create recipe function")
+    const response = (await axios.post('/api/recipes', input)).data
+    console.log("axios response: ", response)
+    setRecipes([...recipes, {"name": response.name, "id": response.id}])
+
+  }
 
   //load data from server on first launch
   useEffect(()=>{
@@ -60,10 +65,6 @@ const App = () => {
     })
   }, [])
 
-  //reload page when data is updated
-  // useEffect(()=>{
-
-  // }, []);
 
   return (
     <div>
@@ -74,6 +75,7 @@ const App = () => {
           <Chefs chefs = {chefs} destroyChef = {destroyChef}/>
         </div>
         <div className= 'column2'>
+          <RecipeForm createRecipe = {createRecipe} chefs = {chefs}/>
           <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe}/>
         </div>
       </div>

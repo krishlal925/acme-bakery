@@ -41,9 +41,9 @@ const createChef = async(name) =>{
   const SQL = 'INSERT INTO chefs(name) VALUES ($1) returning *';
   return (await client.query(SQL, [name])).rows[0];
 }
-const createRecipe = async(name, id) =>{
+const createRecipe = async(name, chef_id) =>{
   const SQL = 'INSERT INTO recipes(name, chef_id) VALUES ($1,$2) returning *';;
-  return (await client.query(SQL, [name, id]));
+  return (await client.query(SQL, [name, chef_id])).rows[0];
 }
 
 const readChefs = async () =>{
@@ -73,6 +73,7 @@ module.exports = {
   readChefs,
   readRecipes,
   createChef,
+  createRecipe,
   deleteChef,
   deleteRecipe
 }
