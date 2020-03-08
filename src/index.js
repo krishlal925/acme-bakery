@@ -44,7 +44,7 @@ const App = () => {
     const response = await axios.post(`/api/chefs`, input)
     console.log(`made it to createChefs(${response})...`)
     console.log("the response: ", response)
-    setChefs([...chefs, response.data.name])
+    setChefs([...chefs, {"name": response.data.name, "id":response.data.id}])
   }
 
 
