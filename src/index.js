@@ -72,11 +72,11 @@ const App = () => {
       <div className='container'>
         <div className= 'column1' >
           <ChefForm createChef = {createChef}/>
-          <Chefs chefs = {chefs} destroyChef = {destroyChef}/>
+          <Chefs chefs = {chefs} destroyChef = {destroyChef} recipes = {recipes}/>
         </div>
         <div className= 'column2'>
           <RecipeForm createRecipe = {createRecipe} chefs = {chefs}/>
-          <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe}/>
+          <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe} chefs = {chefs}/>
         </div>
       </div>
     </div>

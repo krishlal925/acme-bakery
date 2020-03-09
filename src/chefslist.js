@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Chefs = ({chefs, destroyChef}) => {
+const Chefs = ({chefs, destroyChef, recipes}) => {
 
 
   return (
@@ -11,7 +11,20 @@ const Chefs = ({chefs, destroyChef}) => {
           chefs.map(chef =>{
             return (<li key= {chef.id}>
 
-             {chef.name} <button onClick ={()=> destroyChef(chef)} >X</button>
+              {chef.name} <button onClick ={()=> destroyChef(chef)} >X</button>
+              <ul>
+                {
+                  recipes.map(recipe =>{
+                    if(recipe.chef_id === chef.id){
+                      return(
+                        <li key={recipe.id}>
+                          {recipe.name}
+                        </li>
+                      )
+                    }
+                  })
+                }
+              </ul>
 
             </li>)
           })
