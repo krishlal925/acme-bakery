@@ -5,15 +5,26 @@ import Chefs from './chefslist';
 import Recipes from './recipeslist';
 import ChefForm from './chefform';
 import RecipeForm from './recipeform';
-
+import qs from 'qs';
+import UpdateChef from './update_chef_form';
 
 const {useState, useEffect} = React;
+
 
 
 const App = () => {
   const [chefs, setChefs] = useState([]);
   const [recipes, setRecipes] = useState([]);
   const [ error, setError ] = useState('');
+
+  // used for routing
+  const [ params, setParams ] = useState(qs.parse(window.location.hash.slice(1)));
+  useEffect(()=> {
+    window.addEventListener('hashchange', ()=> {
+      setParams(qs.parse(window.location.hash.slice(1)));
+    });
+  }, []);
+  const { view } = params;
 
 
   // delete functions
@@ -68,17 +79,30 @@ const App = () => {
 
   return (
     <div>
-      <div>My App... </div>
-      <div className='container'>
-        <div className= 'column1' >
-          <ChefForm createChef = {createChef}/>
-          <Chefs chefs = {chefs} destroyChef = {destroyChef} recipes = {recipes}/>
+      <div> <a href='#' >ACME Bakery </a></div>
+      {
+        view === 'recipe' && <UpdateRecipe/>
+      }
+
+      {
+        view === 'chef' && <UpdateChef params ={params}/>
+      }
+
+      {
+        !view && (
+        <div className='container'>
+          <div className= 'column1' >
+            <ChefForm createChef = {createChef}/>
+            <Chefs chefs = {chefs} destroyChef = {destroyChef} recipes = {recipes}/>
+          </div>
+          <div className= 'column2'>
+            <RecipeForm createRecipe = {createRecipe} chefs = {chefs}/>
+            <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe} chefs = {chefs}/>
+          </div>
         </div>
-        <div className= 'column2'>
-          <RecipeForm createRecipe = {createRecipe} chefs = {chefs}/>
-          <Recipes recipes = {recipes} destroyRecipe = {destroyRecipe} chefs = {chefs}/>
-        </div>
-      </div>
+        )
+      }
+
     </div>
   );
 };

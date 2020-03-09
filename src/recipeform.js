@@ -8,9 +8,7 @@ const RecipeForm = ({createRecipe, chefs})=>{
 
   const onSubmit = (ev)=>{
     ev.preventDefault();
-    console.log("recipe name: ", name);
     createRecipe({name, chef_id});
-    console.log("chef id in onSubmit recipeform: ",chef_id)
   }
 
   return(
@@ -20,9 +18,7 @@ const RecipeForm = ({createRecipe, chefs})=>{
         <input value={name} onChange = {(ev)=>setName(ev.target.value) }></input>
         <select value = {chef_id} onChange= {
           (ev)=>{
-            console.log(ev.target.value)
             setChef_id(ev.target.value)
-            console.log(`the chef_id: ${chef_id}`)
           }
         }>
           {

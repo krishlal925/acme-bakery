@@ -10,8 +10,10 @@ const Chefs = ({chefs, destroyChef, recipes}) => {
         {
           chefs.map(chef =>{
             return (<li key= {chef.id}>
-
-              {chef.name} <button onClick ={()=> destroyChef(chef)} >X</button>
+              <a href={`#view=chef&id=${chef.id}`} >
+                {chef.name}
+              </a>
+              <button onClick ={()=> destroyChef(chef)} >X</button>
               <ul>
                 {
                   recipes.map(recipe =>{
