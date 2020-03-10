@@ -85,7 +85,7 @@ const App = () => {
       }
 
       {
-        view === 'chef' && <UpdateChef params ={params}/>
+        view === 'chef' && <UpdateChef id ={params.id} chefs= {chefs}/>
       }
 
       {
