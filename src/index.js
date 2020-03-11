@@ -64,6 +64,28 @@ const App = () => {
 
   }
 
+  //update functions
+  const updateChef = async(name, id)=>{
+    console.log("i am in the updateChef function")
+    const updatedChef = (await axios.put(`/api/chefs/${id}`, {name})).data.rows[0]
+    console.log(updatedChef)
+    console.log(`index.js updateFunction name: ${name}, id: ${id}`)
+
+    //updates UIwith updated name
+    const updatedChefs = chefs.map(chef =>{
+      if(chef.id === id){
+        return(updatedChef)
+      }
+      else{
+        return chef;
+      }
+    });
+    setChefs(updatedChefs);
+
+    //sends user back to homepage after updating user
+    window.location.hash = '#';
+  }
+
   //load data from server on first launch
   useEffect(()=>{
     console.log("entering use effect...")
@@ -85,7 +107,7 @@ const App = () => {
       }
 
       {
-        view === 'chef' && <UpdateChef id ={params.id} chefs= {chefs}/>
+        view === 'chef' && <UpdateChef id={params.id} chefs={chefs} updateChef={updateChef}/>
       }
 
       {

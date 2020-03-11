@@ -48,6 +48,11 @@ app.delete('/api/recipes/:id', (req,res,next)=>{
   .then(response => res.send(response))
 });
 
+app.put('/api/chefs/:id', (req,res,next)=>{
+  console.log(req.body)
+  db.updateChef(req.body.name, req.params.id)
+  .then(response => res.send(response))
+})
 
 db.sync()
   .then(()=>{

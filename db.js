@@ -42,7 +42,7 @@ const createChef = async(name) =>{
   return (await client.query(SQL, [name])).rows[0];
 }
 const createRecipe = async(name, chef_id) =>{
-  const SQL = 'INSERT INTO recipes(name, chef_id) VALUES ($1,$2) returning *';;
+  const SQL = 'INSERT INTO recipes(name, chef_id) VALUES ($1,$2) returning *';
   return (await client.query(SQL, [name, chef_id])).rows[0];
 }
 
@@ -68,6 +68,12 @@ const deleteRecipe = async(id)=>{
   return(`deleted: ${id}`)
 }
 
+const updateChef = async(name, id)=> {
+  const SQL = 'UPDATE chefs SET name = $1 WHERE id= $2 returning *';
+  return(await client.query(SQL, [name, id]))
+
+}
+
 module.exports = {
   sync,
   readChefs,
@@ -75,5 +81,6 @@ module.exports = {
   createChef,
   createRecipe,
   deleteChef,
-  deleteRecipe
+  deleteRecipe,
+  updateChef
 }

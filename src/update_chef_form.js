@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 
-const UpdateChef = ({id, chefs})=>{
+const UpdateChef = ({id, chefs, updateChef})=>{
 
-  console.log(id);
-  console.log(chefs)
   const chef = chefs.filter(chef =>{
     return(chef.id === id)
   })
-
-  console.log(chef)
   const [name, setName] = useState(chef[0].name);
-  console.log("name: ",chef[0].name)
+
   const onSubmit = (ev)=>{
     ev.preventDefault();
     console.log("Updated Chefs name: ", name);
-
+    updateChef(name, id)
   }
 
   return(
